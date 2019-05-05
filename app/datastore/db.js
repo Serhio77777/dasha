@@ -3,11 +3,20 @@ const config = require('../config/config')
 
 const connection = mysql.createConnection(config.sqlDB)
 
-connection.connect((error) => {
-    if (error) {
-        console.error('error connecting: ' + error.stack);
-        return;
-    }
-})
+function handleDisconnect(conn) {
+    connection.on('error', function(err) {
+        if (!err.fatal) {
+            return;
+        }
 
+        if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
+            throw err;
+        }
+        console.log('Re-connecting lost connection: ' + err.stack);
+        connection = mysql.createConnection(config.CLEARDB_DATABASE_URL);
+        handleDisconnect(connection);
+        connection.connect();
+    });
+}
+handleDisconnect(connection);
 module.exports = connection
