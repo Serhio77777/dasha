@@ -1182,3 +1182,651 @@
         "message": "Discount not found."
     }
     ```
+
+## Trip
+
+**Create trip**
+
+----
+    Returns json data about a single trip.
+    
+* **URL**
+
+    /trip
+
+* **Method:**
+
+    `POST`
+
+* **Data params**
+
+    `userId=[number]`
+
+    `places=[[number]]`
+
+    `name=[string]`
+
+    `description=[string]`
+
+* **Sample request json:**
+
+    ```json
+    {
+        "userId": 1,
+        "places": [1],
+        "name": "lorem",
+        "description": "Lorem ipsum dolor sit amet."
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 1,
+        "name": "lorem",
+        "description": "Lorem ipsum dolor sit amet.",
+        "places": [
+            {
+                "id": 9,
+                "cityId": 1,
+                "name": "test1",
+                "description": "Morbi ligula eros, vulputate ut dignissim molestie, vehicula quis est.",
+                "rate": 0,
+                "images": ["base64"],
+                "coords": [
+                    {
+                        "lat": 23.348549,
+                        "lng": 53.564296
+                    }
+                ]
+            }
+        ],
+        "userId": 1
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Trip not found."
+    }
+    ```
+
+**Update trip**
+----
+    Updates trip data.
+    
+* **URL**
+
+    /trip/:id
+
+* **Method:**
+
+    `PUT`
+
+* **Data params**
+
+    `userId=[number]`
+
+    `places=[[number]]`
+
+    `name=[string]`
+
+    `description=[string]`
+
+* **Sample request json:**
+
+    ```json
+    {
+        "userId": 1,
+        "places": [1],
+        "name": "lorem1",
+        "description": "Lorem ipsum dolor sit amet."
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 1,
+        "name": "lorem1",
+        "description": "Lorem ipsum dolor sit amet.",
+        "places": [
+            {
+                "id": 9,
+                "cityId": 1,
+                "name": "test1",
+                "description": "Morbi ligula eros, vulputate ut dignissim molestie, vehicula quis est.",
+                "rate": 0,
+                "images": ["base64"],
+                "coords": [
+                    {
+                        "lat": 23.348549,
+                        "lng": 53.564296
+                    }
+                ]
+            }
+        ],
+        "userId": 1
+    }
+    ```
+    
+**Get one:**
+----
+    Returns json data about a single trip.
+
+* **URL**
+
+    /trip/:id
+    
+* **Method:**
+
+    `GET`
+
+* **Success response:**
+
+    *   **Code** 200 <br/>
+        **Content:**
+
+    ```json
+    {
+        "id": 1,
+        "name": "lorem1",
+        "description": "Lorem ipsum dolor sit amet.",
+        "places": [
+            {
+                "id": 9,
+                "cityId": 1,
+                "name": "test1",
+                "description": "Morbi ligula eros, vulputate ut dignissim molestie, vehicula quis est.",
+                "rate": 0,
+                "images": ["base64"],
+                "coords": [
+                    {
+                        "lat": 23.348549,
+                        "lng": 53.564296
+                    }
+                ]
+            }
+        ],
+        "userId": 1
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Trip not found."
+    }
+    ```
+
+**Get all trips:**
+----
+    Returns json data about all trips.
+    
+*   **URL**
+
+    /trips
+
+* **Query params**
+
+    `search=[string]`
+
+*   **Method:**
+    
+    `GET`
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    [
+        {
+            "id": 1,
+            "name": "lorem1",
+            "description": "Lorem ipsum dolor sit amet.",
+            "places": [
+                {
+                    "id": 9,
+                    "cityId": 1,
+                    "name": "test1",
+                    "description": "Morbi ligula eros, vulputate ut dignissim molestie, vehicula quis est.",
+                    "rate": 0,
+                    "images": ["base64"],
+                    "coords": [
+                        {
+                            "lat": 23.348549,
+                            "lng": 53.564296
+                        }
+                    ]
+                }
+            ],
+            "userId": 1
+        }
+    ]
+    ```
+    
+**Add trip place:**
+----
+    Add place data to trip.
+
+*   **URL**
+
+    /trip/:id/places
+    
+*   **Method:**
+    
+    `PUT`
+
+*   **Data params:**
+    
+    `places=[[number]]`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Place is added successfully."
+    }
+    ```
+
+* **Sample request json:**
+
+    ```json
+    {
+        "places": [1,2,3]
+    }
+    ```
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Trip not found."
+    }
+    ```
+
+**Delete trip:**
+----
+    Delete trip data.
+
+*   **URL**
+
+    /trip/:id
+    
+*   **Method:**
+    
+    `DELETE`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Trip is deleted successfully."
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Trip not found."
+    }
+    ```
+
+## Place
+
+**Create Place**
+
+----
+    Returns json data about a single place.
+    
+* **URL**
+
+    /place
+
+* **Method:**
+
+    `POST`
+
+* **Data params**
+
+    `cityId=[number]`
+
+    `name=[string]`
+
+    `description=[string]`
+    
+    `coords={lat:[number], lng:[number]}`
+        
+* **Sample request json:**
+
+    ```json
+    {
+        "cityId": 1,
+        "name": "test",
+        "description": "Morbi ligula eros, vulputate ut dignissim molestie, vehicula quis est.",
+        "coords": {
+            "lat": 23.348549,
+            "lng": 53.564296
+        }
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 9,
+        "cityId": 1,
+        "name": "test",
+        "description": "Morbi ligula eros, vulputate ut dignissim molestie, vehicula quis est.",
+        "rate": 0,
+        "images": [],
+        "coords": [
+            {
+                "lat": 23.348549,
+                "lng": 53.564296
+            }
+        ]
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "..."
+    }
+    ```
+
+**Update place**
+----
+    Updates place data.
+    
+* **URL**
+
+    /place/:id
+
+* **Method:**
+
+    `PUT`
+
+* **Data params**
+
+    `cityId=[number]`
+
+    `name=[string]`
+
+    `description=[string]`
+    
+    `coords={lat:[number], lng:[number]}`
+        
+* **Sample request json:**
+
+    ```json
+    {
+        "cityId": 1,
+        "name": "test1",
+        "description": "Morbi ligula eros, vulputate ut dignissim molestie, vehicula quis est.",
+        "coords": {
+            "lat": 23.348549,
+            "lng": 53.564296
+        }
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 9,
+        "cityId": 1,
+        "name": "test1",
+        "description": "Morbi ligula eros, vulputate ut dignissim molestie, vehicula quis est.",
+        "rate": 0,
+        "images": [],
+        "coords": [
+            {
+                "lat": 23.348549,
+                "lng": 53.564296
+            }
+        ]
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Place not found."
+    }
+    ```
+    
+**Get one place:**
+----
+    Returns json data about a single place.
+
+* **URL**
+
+    /place/:id
+    
+* **Method:**
+
+    `GET`
+
+* **Success response:**
+
+    *   **Code** 200 <br/>
+        **Content:**
+
+    ```json
+    {
+        "id": 9,
+        "cityId": 1,
+        "name": "test1",
+        "description": "Morbi ligula eros, vulputate ut dignissim molestie, vehicula quis est.",
+        "rate": 0,
+        "images": ["base64"],
+        "coords": [
+            {
+                "lat": 23.348549,
+                "lng": 53.564296
+            }
+        ]
+    }
+    ```
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Place not found."
+    }
+    ```
+
+**Get all places:**
+----
+    Returns json data about all places.
+
+*   **URL**
+
+    /places
+    
+*   **Method:**
+    
+    `GET`
+
+* **Query params**
+
+    `search=[string]`
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    [
+        {
+            "id": 9,
+            "cityId": 1,
+            "name": "test1",
+            "description": "Morbi ligula eros, vulputate ut dignissim molestie, vehicula quis est.",
+            "rate": 0,
+            "images": [],
+            "coords": [
+                {
+                    "lat": 23.348549,
+                    "lng": 53.564296
+                }
+            ]
+        }
+    ]
+    ```
+
+**Delete place:**
+----
+    Delete place data.
+
+*   **URL**
+
+    /Place/:id
+    
+*   **Method:**
+    
+    `DELETE`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Place is deleted successfully."
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Discount not found."
+    }
+    ```
+
+**Add place image:**
+----
+    Insert image (if hasn't been already created) to db. Add image data to place.
+
+*   **URL**
+
+    /place/:id/image
+    
+*   **Method:**
+    
+    `POST`
+
+*   **Data params:**
+    
+    `image=[string]`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Image is set successfully."
+    }
+    ```
+
+* **Sample request json:**
+
+    ```json
+    {
+        "image": "image base64"
+    }
+    ```
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Place not found."
+    }
+    ```
+
+**Add place rate:**
+----
+    Add rate data to place.
+
+*   **URL**
+
+    /place/:id/rate
+    
+*   **Method:**
+    
+    `PUT`
+
+*   **Data params:**
+    
+    `rate=[number]`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Rate is added successfully."
+    }
+    ```
+
+* **Sample request json:**
+
+    ```json
+    {
+        "rate": 5.5
+    }
+    ```
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Place not found."
+    }
+    ```

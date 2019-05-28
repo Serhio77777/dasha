@@ -2,19 +2,67 @@ const mysql = require('mysql')
 const connection = require('../datastore/db')
 const { encrypt, decrypt } = require('../middleware/hash')
 const dateFns = require('date-fns')
+const HttpError = require('../middleware/error')
 
-const getAll = id => {
+const getAll = (id, searchText, next) => {
   return new Promise((resolve, reject) => {
     connection.query(
       `SELECT * FROM Place WHERE cityId = ?`,
       [id],
       (error, results, fields) => {
         if (error) {
-          throw error
+            reject(error)
         }
-        console.log(results)
-        resolve(results)
+        Promise.all(results.map(async element => {
+          if (JSON.parse(element.images).length) {
+            return Promise.all(JSON.parse(element.images).map(async image => (await getImageById(image))))
+          } else {
+            return []          
+          }
+        }))
+          .then(data => {
+            results = results.map((element, index) => {
+              element.images = data[index]
+              if (JSON.parse(element.rate).length === 0) {
+                element.rate = 0
+              } else if (JSON.parse(element.rate).length === 1) {
+                element.rate = JSON.parse(element.rate)[0]
+              } else {
+                element.rate = JSON.parse(element.rate).reduce((accumulator, currentValue) => accumulator + currentValue) / JSON.parse(element.rate).length
+              }
+              element.coords = JSON.parse(element.coords)
+              return element
+            }).sort((a,b) => {
+              if (a.rate > b.rate) return -1
+              if (a.rate < b.rate) return 1
+              return 0
+            })
+            if (searchText) {
+              results = results.filter(element => element.name.match(searchText))
+            }
+            resolve(results)
+          })
+          .catch(next)
       })
+  })
+}
+
+
+const getImageById = id => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `SELECT * FROM Image WHERE id = ?`, 
+      [id],
+      (error, results, fields) => {
+        if (error) {
+          reject(error)
+        }
+        if (results[0]) {
+          resolve(results[0].image)
+        } else {
+          resolve()
+        }
+    })
   })
 }
 
@@ -23,10 +71,32 @@ const getOne = id => {
     connection.query(
       `SELECT * FROM Place WHERE id = ?`,
       [id],
-      (error, results, fields) => {
+     async (error, results, fields) => {
         if (error) {
-          throw error
+          reject(error)
         }
+        if (results.length === 0) {
+            return reject(new HttpError('Place not found.'))
+        }
+        if (JSON.parse(results[0].images).length) {
+          results[0].images = await Promise.all(JSON.parse(results[0].images).map(async element => {
+            if (element) {
+              return getImageById(element)
+            } else {
+              return element
+            }
+          }))
+        } else {
+          results[0].images = []
+        }
+        if (JSON.parse(results[0].rate).length === 0) {
+          results[0].rate = 0
+        } else if (JSON.parse(results[0].rate).length === 1) {
+          results[0].rate = JSON.parse(results[0].rate)[0]
+        } else {
+          results[0].rate = JSON.parse(results[0].rate).reduce((accumulator, currentValue) => accumulator + currentValue) / JSON.parse(results[0].rate).length
+        }
+        results[0].coords = JSON.parse(results[0].coords)
         resolve(results[0])
       })
   })
@@ -39,7 +109,7 @@ const getImage = body => {
     [body.image],
     (error, results, fields) => {
       if (error) {
-        throw error
+        reject(error)
       }
       resolve(results[0].id)
     })
@@ -51,17 +121,22 @@ const addImage = async (id, body) => {
     `SELECT * FROM Image WHERE image = ?`,
     [body.image],
     (error, results, fields) => {
-      if (error || !results[0]) {
-        throw error
+      if (error) {
+        next(error)
+        // TODO: need a clever solution...
+        return 0
+      } else if (results.length === 0) {
+        return results
+      } else {
+        return results[0].id
       }
-      return results[0].id
-  })) !== 'number') {
+  })) !== 'number') { // TODO: maybe something else could help
     await connection.query(
       `INSERT INTO Image SET ?`,
       [{ image: body.image }],
       (error, results, fields) => {
         if (error) {
-          throw error
+          return next(error)
         }
     })
   }
@@ -72,17 +147,18 @@ const addImage = async (id, body) => {
   return new Promise((resolve, reject) => {
     connection.query(
       `UPDATE Place SET ` +
-            'images = ? ' +
-            'WHERE id = ? ',
+        'images = ? ' +
+        'WHERE id = ? ',
       [
         JSON.stringify(images),
         id
       ],
       (error, results, fields) => {
         if (error) {
-          throw error
+          reject(error)
+        } else {
+          resolve({message: 'Image is set successfully.'})
         }
-        resolve(results)
       })
   })
 }
@@ -90,67 +166,68 @@ const addImage = async (id, body) => {
 const addRate = async (id, body) => {
   let place = await getOne(id)
   let rate = JSON.parse(place.rate)
-  rate.push(body.rate)
+  if (body.rate.find(rate => rate === body.rate)) {
+    rate.push(body.rate)
+  }
   return new Promise((resolve, reject) => {
     connection.query(
       `UPDATE Place SET ` +
-            'rate = ? ' +
-            'WHERE id = ? ',
+        'rate = ? ' +
+        'WHERE id = ? ',
       [
         JSON.stringify(rate),
         id
       ],
       (error, results, fields) => {
         if (error) {
-          throw error
+          reject(error)
         }
-        console.log(results)
-        resolve(results)
+        resolve({message: 'Rate is added successfully.'})
       })
   })
 }
 
 const create = async body => {
   return new Promise((resolve, reject) => {
-      body.images = JSON.stringify([])
-      body.rate = JSON.stringify([])
-      body.coords = JSON.stringify([body.coords])
-      connection.query(
-        `INSERT INTO Place SET ?`,
-        [body],
-        (error, results, fields) => {
-          if (error) {
-            throw error
-          }
-          console.log(results)
-          resolve(results)
-        })
+    body.images = JSON.stringify([])
+    body.rate = JSON.stringify([])
+    body.coords = JSON.stringify([body.coords])
+    connection.query(
+      `INSERT INTO Place SET ?`,
+      [body],
+      async (error, results, fields) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(await getOne(results.insertId))
+        }
+      })
   })
 }
 
 const remove = id => {
-    return new Promise((resolve, reject) => {
-        connection.query(
-            `DELETE FROM Place WHERE id = ?`, 
-            [Number(id)], 
-            (error, results, fields) => {
-                if (error) {
-                    throw error
-                }
-                resolve(results)
-        })
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `DELETE FROM Place WHERE id = ?`, 
+      [Number(id)], 
+      (error, results, fields) => {
+        if (error) {
+          reject(error)
+        }
+        resolve({message: 'Place is deleted successfully.'})
     })
+  })
 }
 
 const update = (body, id) => {
   return new Promise((resolve, reject) => {
     connection.query(
       `UPDATE Place SET ` +
-            'cityId = ?, ' +
-            'description = ?, ' +
-            'coords = ?, ' +
-            'name = ? ' +
-            'WHERE id = ? ',
+        'cityId = ?, ' +
+        'description = ?, ' +
+        'coords = ?, ' +
+        'name = ? ' +
+        'WHERE id = ? ',
       [
         body.cityId,
         body.description,
@@ -158,12 +235,11 @@ const update = (body, id) => {
         body.name,
         id
       ],
-      (error, results, fields) => {
+      async (error, results, fields) => {
         if (error) {
-          throw error
+          reject(error)
         }
-        console.log(results)
-        resolve(results)
+        resolve(await getOne(id))
       })
   })
 }

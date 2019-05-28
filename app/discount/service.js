@@ -158,6 +158,7 @@ const addImage = async (id, body) => {
       })
   })
 }
+
 const update = (body, id) => {
   return new Promise((resolve, reject) => {
     connection.query(

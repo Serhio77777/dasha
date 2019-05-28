@@ -28,8 +28,8 @@ console.log('♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥�
 app.use(cors())
 
 app.use(bodyParser.text())
-app.use(bodyParser.json({limit: '50mb', extended: true}))
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
+app.use(bodyParser.json({limit: '200mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '200mb', extended: true}))
 // app.use(passport.initialize())
 
 app.use('/api/v1/', user)
