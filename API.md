@@ -1108,7 +1108,6 @@
     ```
 
 **Delete discount:**
-
 ----
     Delete discount data.
 
@@ -1140,7 +1139,7 @@
     }
     ```
 
-**Add user image:**
+**Add discount image:**
 ----
     Insert image (if hasn't been already created) to db. Add image data to discount.
 
@@ -1180,6 +1179,304 @@
     ```json
     {
         "message": "Discount not found."
+    }
+    ```
+
+
+
+
+
+
+
+
+
+## Tip
+
+**Create tip**
+
+----
+    Returns json data about a single tip.
+    
+* **URL**
+
+    /tip
+
+* **Method:**
+
+    `POST`
+
+* **Data params**
+
+    `cityId=[number]`
+
+    `tips=[props:[{name:[string], description:[string]}, general:[string]]]`
+
+* **Sample request json:**
+
+    ```json
+    {
+        "cityId": 1,
+        "tips": {
+            "props": [
+                {
+                    "name": "lorem",
+                    "description": "Lorem ipsum."
+                },
+                {
+                    "name": "lorem",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                },
+                {
+                    "name": "lorem",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                }
+            ],
+            "general": "lorem"
+        }
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 1,
+        "cityId": 1,
+        "tips": {
+            "props": [
+                {
+                    "name": "lorem",
+                    "description": "Lorem ipsum."
+                },
+                {
+                    "name": "lorem",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                },
+                {
+                    "name": "lorem",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                }
+            ],
+            "general": "lorem"
+        }
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Tipy not found."
+    }
+    ```
+
+**Update tip**
+----
+    Updates tip data.
+    
+* **URL**
+
+    /tip/:id
+
+* **Method:**
+
+    `PUT`
+
+* **Data params**
+
+    `cityId=[number]`
+
+    `tips=[props:[{name:[string], description:[string]}, general:[string]]]`
+
+* **Sample request json:**
+
+    ```json
+    {
+        "cityId": 1,
+        "tips": {
+            "props": [
+                {
+                    "name": "lorem1",
+                    "description": "Lorem ipsum."
+                },
+                {
+                    "name": "lorem2",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                },
+                {
+                    "name": "lorem3",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                }
+            ],
+            "general": "lorem"
+        }
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 1,
+        "cityId": 1,
+        "tips": {
+            "props": [
+                {
+                    "name": "lorem1",
+                    "description": "Lorem ipsum."
+                },
+                {
+                    "name": "lorem2",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                },
+                {
+                    "name": "lorem3",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                }
+            ],
+            "general": "lorem"
+        }
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Tipy not found."
+    }
+    ```
+    
+**Get one:**
+----
+    Returns json data about a single tip.
+
+* **URL**
+
+    /tip/:id
+    
+* **Method:**
+
+    `GET`
+
+* **Success response:**
+
+    *   **Code** 200 <br/>
+        **Content:**
+
+    ```json
+    {
+        "id": 1,
+        "cityId": 1,
+        "tips": {
+            "props": [
+                {
+                    "name": "lorem",
+                    "description": "Lorem ipsum."
+                },
+                {
+                    "name": "lorem",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                },
+                {
+                    "name": "lorem",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                }
+            ],
+            "general": "lorem"
+        }
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Tip not found."
+    }
+    ```
+
+**Get all tips:**
+----
+    Returns json data about all tips.
+    
+*   **URL**
+
+    /tips
+
+*   **Method:**
+    
+    `GET`
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    [ 
+        {
+            "id": 1,
+            "cityId": 1,
+            "tips": {
+                "props": [
+                    {
+                        "name": "lorem",
+                        "description": "Lorem ipsum."
+                    },
+                    {
+                        "name": "lorem",
+                        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    },
+                    {
+                        "name": "lorem",
+                        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    }
+                ],
+                "general": "lorem"
+            }
+        }
+    ]
+    ```
+
+**Delete tip:**
+----
+    Delete tip data.
+
+*   **URL**
+
+    /tip/:id
+    
+*   **Method:**
+    
+    `DELETE`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Tip is deleted successfully."
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Tip not found."
     }
     ```
 
@@ -1418,7 +1715,7 @@
         }
     ]
     ```
-    
+
 **Add trip place:**
 ----
     Add place data to trip.

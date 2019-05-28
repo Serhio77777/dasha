@@ -12,8 +12,10 @@ const getAll = id => {
         if (error) {
           throw error
         }
-        console.log(results)
-        resolve(results)
+        resolve(results.map(result => {
+          result.tips = JSON.parse(result.tips)
+          return result
+        }))
       })
   })
 }
@@ -25,8 +27,12 @@ const getOne = id => {
       [id],
       (error, results, fields) => {
         if (error) {
-          throw error
+          reject(error)
         }
+        if (results.length === 0) {
+          return reject(new HttpError(`Tip not found.`))
+        }
+        results[0].tips = JSON.parse(results[0].tips)
         resolve(results[0])
       })
   })
@@ -38,48 +44,46 @@ const create = (body) => {
     connection.query(
       `INSERT INTO Tip SET ?`,
       [body],
-      (error, results, fields) => {
+      async (error, results, fields) => {
         if (error) {
-          throw error
+          reject(error)
         }
-        console.log(results)
-        resolve(results)
+        resolve(await getOne(results.insertId))
       })
   })
 }
 
 const remove = id => {
-    return new Promise((resolve, reject) => {
-        connection.query(
-            `DELETE FROM Tip WHERE id = ?`, 
-            [Number(id)], 
-            (error, results, fields) => {
-                if (error) {
-                    throw error
-                }
-                resolve(results)
-        })
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `DELETE FROM Tip WHERE id = ?`, 
+      [Number(id)], 
+      (error, results, fields) => {
+        if (error) {
+            reject(error)
+        }
+        resolve({message: 'Tip is deleted successfully.'})
     })
+  })
 }
 
 const update = (body, id) => {
   return new Promise((resolve, reject) => {
     connection.query(
       `UPDATE Tip SET ` +
-            'cityId = ?, ' +
-            'tips = ? ' +
-            'WHERE id = ? ',
+        'cityId = ?, ' +
+        'tips = ? ' +
+        'WHERE id = ? ',
       [
         body.cityId,
         JSON.stringify(body.tips),
         id
       ],
-      (error, results, fields) => {
+      async (error, results, fields) => {
         if (error) {
-          throw error
+          reject(error)
         }
-        console.log(results)
-        resolve(results)
+        resolve(await getOne(id))
       })
   })
 }
