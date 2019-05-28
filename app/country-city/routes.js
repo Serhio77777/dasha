@@ -6,7 +6,7 @@ const validator = require('./validator')
 
 // country
 router.get('/countries', (req, res, next) => {
-  service.getAll('Country')
+  service.getAll('Country', null, req.query.search)
     .then((user) => {
       res.json(user)
     })
@@ -47,7 +47,7 @@ router.delete('/country/:id', (req, res, next) => {
 
 // city
 router.get('/cities', (req, res, next) => {
-  service.getAll('City', req.query.countryId)
+  service.getAll('City', req.query.countryId, req.query.search, next)
     .then((user) => {
       res.json(user)
     })

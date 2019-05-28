@@ -423,7 +423,7 @@
 **Get all companies:**
 ----
     Returns json data about all companies.
-    
+
 *   **URL**
 
     /companies
@@ -520,5 +520,386 @@
     ```json
     {
         "message": "Company not found."
+    }
+    ```
+
+## Country
+
+**Create country**
+
+----
+    Returns json data about a single country.
+    
+* **URL**
+
+    /country
+
+* **Method:**
+
+    `POST`
+
+* **Data params**
+
+    `name=[string]`
+        
+* **Sample request json:**
+
+    ```json
+    {
+        "name": "test"
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 2,
+        "name": "test"
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Country not found."
+    }
+    ```
+
+**Update country**
+----
+    Updates country data.
+    
+* **URL**
+
+    /country/:id
+
+* **Method:**
+
+    `PUT`
+
+* **Data params**
+
+    `name=[string]`
+
+
+* **Sample request json:**
+
+    ```json
+    {
+        "name": "test1"
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 2,
+        "name": "test1"
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Country not found."
+    }
+    ```
+    
+**Get one:**
+----
+    Returns json data about a single country.
+
+* **URL**
+
+    /country/:id
+    
+* **Method:**
+
+    `GET`
+
+* **Success response:**
+
+    *   **Code** 200 <br/>
+        **Content:**
+
+    ```json
+    {
+        "id": 2,
+        "name": "test"
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Company not found."
+    }
+    ```
+
+**Get all countries:**
+----
+    Returns json data about all countries.
+    
+*   **URL**
+
+    /countries
+    
+*   **Method:**
+    
+    `GET`
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    [
+        {
+            "id": 2,
+            "name": "test"
+        }
+    ]
+    ```
+
+**Delete country:**
+
+----
+    Delete country data.
+
+*   **URL**
+
+    /country/:id
+    
+*   **Method:**
+    
+    `DELETE`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Country is deleted successfully."
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Country not found."
+    }
+    ```
+
+## City
+
+**Create city**
+
+----
+    Returns json data about a single city.
+    
+* **URL**
+
+    /city
+
+* **Method:**
+
+    `POST`
+
+* **Data params**
+
+    `name=[string]`
+
+    `countryId=[number]`
+
+* **Sample request json:**
+
+    ```json
+    {
+        "name": "test"
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 3,
+        "countryId": "test",
+        "name": "test"
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "City not found."
+    }
+    ```
+
+**Update city**
+----
+    Updates city data.
+    
+* **URL**
+
+    /city/:id
+
+* **Method:**
+
+    `PUT`
+
+* **Data params**
+
+    `name=[string]`
+
+* **Sample request json:**
+
+    ```json
+    {
+        "name": "3"
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 3,
+        "countryId": "test",
+        "name": "3"
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "City not found."
+    }
+    ```
+    
+**Get one:**
+----
+    Returns json data about a single city.
+
+* **URL**
+
+    /city/:id
+    
+* **Method:**
+
+    `GET`
+
+* **Success response:**
+
+    *   **Code** 200 <br/>
+        **Content:**
+
+    ```json
+    {
+        "id": 3,
+        "countryId": "test",
+        "name": "3"
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "City not found."
+    }
+    ```
+
+**Get all cities:**
+----
+    Returns json data about all cities.
+    
+*   **URL**
+
+    /cities
+
+* **Data params**
+
+    `search=[string]`
+
+*   **Method:**
+    
+    `GET`
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    [
+        {
+            "id": 3,
+            "countryId": "test",
+            "name": "3"
+        }
+    ]
+    ```
+
+**Delete city:**
+
+----
+    Delete city data.
+
+*   **URL**
+
+    /city/:id
+    
+*   **Method:**
+    
+    `DELETE`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "City is deleted successfully."
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "City not found."
     }
     ```

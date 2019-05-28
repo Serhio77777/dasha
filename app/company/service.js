@@ -14,12 +14,12 @@ const getAll = () => {
             reject(error)
         }
         Promise.all(results.map(async element => {
-            if (element.image) {
-              return getOneImage(element.image)
-            } else {
-              return element.image
-            }
-          }))
+          if (element.image) {
+            return getOneImage(element.image)
+          } else {
+            return element.image
+          }
+        }))
           .then(data => {
             resolve(results.map((element, index) => {
               element.image = data[index]
@@ -171,7 +171,7 @@ const update = (body, id) => {
         if (error) {
             reject(error)
         }
-        resolve(await getOne(body))
+        resolve(await getOne(id))
       })
   })
 }
