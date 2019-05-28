@@ -10,6 +10,7 @@ function handleDisconnect(conn) {
         }
 
         if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
+            console.log(11111)
             throw err;
         }
         console.log('Re-connecting lost connection: ' + err.stack);

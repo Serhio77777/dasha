@@ -12,6 +12,12 @@ const cors = require('cors')
 
 require('./datastore/db')
 
+// Search city + country
+// popular places
+
+// and one more, I don't understand structure of GET /tip response and how I need to do POST/PUT
+
+
 const app = express()
 
 console.log('♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠')
@@ -41,6 +47,15 @@ app.use((req, res, next) => {
 })
 
 app.use((error, req, res, next) => {
+  console.log(1111, error, error.code, Object.keys(error))
+  if (error.sqlMessage) {
+    if (error.sqlMessage.match('userHash')) {
+      res.status(400).send({message: 'User has been already created.'})
+    }
+  }
+  if (error.status) {
+      res.status(error.status).send({message: error.message})
+  }
   if (error.errors) {
     return res.status(400).json({
       error: {

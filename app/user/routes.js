@@ -5,7 +5,7 @@ const validate = require('../middleware/validate-middleware')
 const userValidator = require('./validator')
 
 router.get('/users', (req, res, next) => {
-    userService.getAllUsers().then((user) => {
+    userService.getAllUsers(next).then((user) => {
       res.json(user)
     })
     .catch(next)
@@ -35,7 +35,7 @@ router.put('/user/:id', userValidator.updateUserProfile, (req, res, next) => {
     .catch(next)
 })
 router.put('/user/:id/image', (req, res, next) => {
-    userService.addImage(req.body, req.params.id).then((user) => {
+    userService.addImage(req.body, req.params.id, next).then((user) => {
       res.json(user)
     })
     .catch(next)
