@@ -2,6 +2,7 @@ const mysql = require('mysql')
 const connection = require('../datastore/db')
 const { encrypt, decrypt } = require('../middleware/hash')
 const dateFns = require('date-fns')
+const HttpError = require('../middleware/error')
 
 const getAll = () => {
   return new Promise((resolve, reject) => {
@@ -10,11 +11,37 @@ const getAll = () => {
       [],
       (error, results, fields) => {
         if (error) {
-          throw error
+            reject(error)
         }
-        console.log(results)
-        resolve(results)
+        Promise.all(results.map(async element => {
+            if (element.image) {
+              return getOneImage(element.image)
+            } else {
+              return element.image
+            }
+          }))
+          .then(data => {
+            resolve(results.map((element, index) => {
+              element.image = data[index]
+              return element
+            }))
+          })
+          .catch(next)
       })
+  })
+}
+
+const getOneImage = id => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `SELECT * FROM Image WHERE id = ?`, 
+      [id],
+      (error, results, fields) => {
+        if (error) {
+          reject(error)
+        }
+        resolve(results[0].image)
+    })
   })
 }
 
@@ -23,9 +50,15 @@ const getOne = id => {
     connection.query(
       `SELECT * FROM Company WHERE id = ?`,
       [id],
-      (error, results, fields) => {
+      async (error, results, fields) => {
         if (error) {
-          throw error
+          reject(error)
+        }
+        if (results.length === 0) {
+            return reject(new HttpError('Company not found.'))
+        }
+        if (results[0].image) {
+          results[0].image = await getOneImage(results[0].image)
         }
         resolve(results[0])
       })
@@ -39,28 +72,28 @@ const create = (body) => {
     connection.query(
       `INSERT INTO Company SET ?`,
       [body],
-      (error, results, fields) => {
+      async (error, results, fields) => {
         if (error) {
-          throw error
+          reject(error)
+        } else {
+          resolve(await getOne(results.insertId))
         }
-        console.log(results)
-        resolve(results)
       })
   })
 }
 
 const remove = id => {
-    return new Promise((resolve, reject) => {
-        connection.query(
-            `DELETE FROM Company WHERE id = ?`, 
-            [Number(id)], 
-            (error, results, fields) => {
-                if (error) {
-                    throw error
-                }
-                resolve(results)
-        })
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `DELETE FROM Company WHERE id = ?`, 
+      [Number(id)], 
+      (error, results, fields) => {
+        if (error) {
+            reject(error)
+        }
+        resolve({message: 'Company is deleted successfully.'})
     })
+  })
 }
 
 const getImage = body => {
@@ -82,17 +115,22 @@ const addImage = async (body, id) => {
     `SELECT * FROM Image WHERE image = ?`,
     [body.image],
     (error, results, fields) => {
-      if (error || !results[0]) {
-        throw error
+      if (error) {
+        next(error)
+        // TODO: need a clever solution...
+        return 0
+      } else if (results.length === 0) {
+        return results
+      } else {
+        return results[0].id
       }
-      return results[0].id
-  })) !== 'number') {
+  })) !== 'number') { // TODO: maybe something else could help
     await connection.query(
       `INSERT INTO Image SET ?`,
       [{ image: body.image }],
       (error, results, fields) => {
         if (error) {
-          throw error
+          return next(error)
         }
     })
   }
@@ -108,9 +146,10 @@ const addImage = async (body, id) => {
       ],
       (error, results, fields) => {
         if (error) {
-          throw error
+          reject(error)
+        } else {
+          resolve({message: 'Image is set successfully.'})
         }
-        resolve(results)
       })
   })
 }
@@ -128,11 +167,11 @@ const update = (body, id) => {
         body.discount,
         id
       ],
-      (error, results, fields) => {
+      async (error, results, fields) => {
         if (error) {
-          throw error
+            reject(error)
         }
-        resolve(results)
+        resolve(await getOne(body))
       })
   })
 }

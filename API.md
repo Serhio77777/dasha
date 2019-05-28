@@ -59,6 +59,7 @@
         "apiKey": null OR "string code"
     }
     ```
+    
 *   **Error Response:**
     *   **Code:** 400 <br/>
         **Content:** 
@@ -71,7 +72,7 @@
 
 **Update user**
 ----
-    Updates user data.
+    Updates user data. Returns json data about a single user.
     
 * **URL**
 
@@ -125,6 +126,7 @@
     
 **Login via email and password:**
 ----
+    Returns json data about a single user.
 
 * **URL**
 
@@ -142,6 +144,7 @@
         "email":"test3@test"
     }
     ```
+
 * **Success response:**
 
     *   **Code** 200 <br/>
@@ -160,6 +163,7 @@
         "apiKey": null OR "string code"
     }
     ```
+
 *   **Error Response:**
     *   **Code:** 400 <br/>
         **Content:** 
@@ -172,7 +176,8 @@
 
 **Get all users:**
 ----
-    
+    Returns json data about all users.
+
 *   **URL**
 
     /users
@@ -202,6 +207,7 @@
 **Delete user:**
 
 ----
+    Delete user data.
 
 *   **URL**
 
@@ -233,10 +239,11 @@
 
 **Add user image:**
 ----
-
+    Insert image (if hasn't been already created) to db. Add image data to user.
+    
 *   **URL**
 
-    /users/:id/image
+    /user/:id/image
     
 *   **Method:**
     
@@ -261,5 +268,257 @@
     ```json
     {
         "image": "image base64"
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "User not found."
+    }
+    ```
+
+## Company
+
+**Create**
+
+----
+    Returns json data about a single company.
+    
+* **URL**
+
+    /company
+
+* **Method:**
+
+    `POST`
+
+* **Data params**
+
+    `name=[string]`
+    
+    `discount=[[number]]`
+        
+* **Sample request json:**
+
+    ```json
+    {
+        "name": "uwqhdiuiuqwheiu uwqhdiuwq",
+    	"discount": [1,2,3]
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 2,
+        "name": "uwqhdiuiuqwheiu uwqhdiuwq",
+        "image": "" OR "image base64",
+        "discount": "[1,2,3]"
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Company not found."
+    }
+    ```
+
+**Update company**
+----
+    Updates company data.
+    
+* **URL**
+
+    /company/:id
+
+* **Method:**
+
+    `PUT`
+
+* **Data params**
+
+    `name=[string]`
+    
+    `discount=[[number]]`
+
+
+* **Sample request json:**
+
+    ```json
+    {
+        "name": "uwqhdiuiuqwheiu uwqhdiuwq",
+    	"discount": [1,2,3]
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 2,
+        "name": "uwqhdiuiuqwheiu uwqhdiuwq",
+        "image": "" OR "image base64",
+        "discount": "[1,2,3]"
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Company not found."
+    }
+    ```
+    
+**Get one:**
+----
+    Returns json data about a single company.
+
+* **URL**
+
+    /company/:id
+    
+* **Method:**
+
+    `GET`
+
+* **Success response:**
+
+    *   **Code** 200 <br/>
+        **Content:**
+
+    ```json
+    {
+        "id": 2,
+        "name": "uwqhdiuiuqwheiu uwqhdiuwq",
+        "image": "" OR "image base64",
+        "discount": "[1,2,3]"
+    }
+    ```
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Company not found."
+    }
+    ```
+
+**Get all companies:**
+----
+    Returns json data about all companies.
+    
+*   **URL**
+
+    /companies
+    
+*   **Method:**
+    
+    `GET`
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    [
+        {
+            "id": 2,
+            "name": "uwqhdiuiuqwheiu uwqhdiuwq",
+            "image": "" OR "image base64",
+            "discount": "[1,2,3]"
+        }
+    ]
+    ```
+
+**Delete company:**
+
+----
+    Delete company data.
+
+*   **URL**
+
+    /company/:id
+    
+*   **Method:**
+    
+    `DELETE`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Company is deleted successfully."
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Company not found."
+    }
+    ```
+
+**Add user image:**
+----
+    Insert image (if hasn't been already created) to db. Add image data to user.
+
+*   **URL**
+
+    /company/:id/image
+    
+*   **Method:**
+    
+    `POST`
+
+*   **Data params:**
+    
+    `image=[string]`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Image is set successfully."
+    }
+    ```
+
+* **Sample request json:**
+
+    ```json
+    {
+        "image": "image base64"
+    }
+    ```
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Company not found."
     }
     ```
