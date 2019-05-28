@@ -663,6 +663,10 @@
     
     `GET`
 
+* **Query params**
+
+    `search=[string]`
+
 *   **Success Response:**
     *   **Code:** 200 <br/>
         **Content:** 
@@ -849,7 +853,7 @@
 
     /cities
 
-* **Data params**
+* **Query params**
 
     `search=[string]`
 
@@ -901,5 +905,280 @@
     ```json
     {
         "message": "City not found."
+    }
+    ```
+
+## Discount
+
+**Create Discount**
+
+----
+    Returns json data about a single discount.
+    
+* **URL**
+
+    /discount
+
+* **Method:**
+
+    `POST`
+
+* **Data params**
+
+    `cityId=[number]`
+
+    `name=[string]`
+
+    `site=[string]`
+
+    `description=[string]`
+    
+    `companyId=[number]`
+        
+* **Sample request json:**
+
+    ```json
+    {
+        "cityId": 1,
+        "name": "test",
+        "site": "test.com",
+        "description": "test",
+        "companyId": 1
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 1,
+        "cityId": 1,
+        "image": "" OR "image base64",
+        "name": "test",
+        "description": "test",
+        "site": "test.com",
+        "companyId": 1
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "..."
+    }
+    ```
+
+**Update discount**
+----
+    Updates discount data.
+    
+* **URL**
+
+    /discount/:id
+
+* **Method:**
+
+    `PUT`
+
+* **Data params**
+
+    `cityId=[number]`
+
+    `name=[string]`
+
+    `site=[string]`
+
+    `description=[string]`
+    
+    `companyId=[number]`
+        
+* **Sample request json:**
+
+    ```json
+    {
+        "cityId": 1,
+        "name": "test1",
+        "site": "test.com",
+        "description": "test",
+        "companyId": 1
+    }
+    ```
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+       
+    ```json
+    {
+        "id": 1,
+        "cityId": 1,
+        "image": "" OR "image base64",
+        "name": "test1",
+        "description": "test",
+        "site": "test.com",
+        "companyId": 1
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Discount not found."
+    }
+    ```
+    
+**Get one:**
+----
+    Returns json data about a single discount.
+
+* **URL**
+
+    /discount/:id
+    
+* **Method:**
+
+    `GET`
+
+* **Success response:**
+
+    *   **Code** 200 <br/>
+        **Content:**
+
+    ```json
+    {
+        "id": 1,
+        "cityId": 1,
+        "image": "" OR "image base64",
+        "name": "test1",
+        "description": "test",
+        "site": "test.com",
+        "companyId": 1
+    }
+    ```
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Discount not found."
+    }
+    ```
+
+**Get all discountes:**
+----
+    Returns json data about all discountes.
+
+*   **URL**
+
+    /discountes
+    
+*   **Method:**
+    
+    `GET`
+
+* **Query params**
+
+    `search=[string]`
+
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    [
+        {
+            "id": 1,
+            "cityId": 1,
+            "image": "" OR "image base64",
+            "name": "test1",
+            "description": "test",
+            "site": "test.com",
+            "companyId": 1
+        }
+    ]
+    ```
+
+**Delete discount:**
+
+----
+    Delete discount data.
+
+*   **URL**
+
+    /discount/:id
+    
+*   **Method:**
+    
+    `DELETE`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Discount is deleted successfully."
+    }
+    ```
+
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Discount not found."
+    }
+    ```
+
+**Add user image:**
+----
+    Insert image (if hasn't been already created) to db. Add image data to discount.
+
+*   **URL**
+
+    /discount/:id/image
+    
+*   **Method:**
+    
+    `POST`
+
+*   **Data params:**
+    
+    `image=[string]`
+    
+*   **Success Response:**
+    *   **Code:** 200 <br/>
+        **Content:** 
+
+    ```json
+    {
+        "message": "Image is set successfully."
+    }
+    ```
+
+* **Sample request json:**
+
+    ```json
+    {
+        "image": "image base64"
+    }
+    ```
+*   **Error Response:**
+    *   **Code:** 400 <br/>
+        **Content:** 
+    
+    ```json
+    {
+        "message": "Discount not found."
     }
     ```

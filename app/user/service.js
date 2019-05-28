@@ -14,7 +14,7 @@ const getAllUsers = next => {
         }
         Promise.all(results.map(async element => {
             if (element.image) {
-              return getOneImage(element.image)
+              return getImageById(element.image)
             } else {
               return element.image
             }
@@ -30,7 +30,7 @@ const getAllUsers = next => {
   })
 }
 
-const getOneImage = id => {
+const getImageById = id => {
   return new Promise((resolve, reject) => {
     connection.query(
       `SELECT * FROM Image WHERE id = ?`, 

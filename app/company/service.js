@@ -15,7 +15,7 @@ const getAll = () => {
         }
         Promise.all(results.map(async element => {
           if (element.image) {
-            return getOneImage(element.image)
+            return getImageById(element.image)
           } else {
             return element.image
           }
@@ -31,7 +31,8 @@ const getAll = () => {
   })
 }
 
-const getOneImage = id => {
+
+const getImageById = id => {
   return new Promise((resolve, reject) => {
     connection.query(
       `SELECT * FROM Image WHERE id = ?`, 
@@ -103,9 +104,9 @@ const getImage = body => {
     [body.image],
     (error, results, fields) => {
       if (error) {
-        throw error
+        reject(error)
       }
-      resolve(results[0].id)
+      resolve(results[0].image)
     })
   })
 }
@@ -138,8 +139,8 @@ const addImage = async (body, id) => {
   return new Promise((resolve, reject) => {
     connection.query(
       `UPDATE Company SET ` +
-            'image = ? ' +
-            'WHERE id = ? ',
+        'image = ? ' +
+        'WHERE id = ? ',
       [
         imageId,
         id
@@ -154,14 +155,15 @@ const addImage = async (body, id) => {
   })
 }
 
+
 const update = (body, id) => {
   body.discount = JSON.stringify(body.discount)
   return new Promise((resolve, reject) => {
     connection.query(
       `UPDATE Company SET ` +
-          'name = ?, ' +
-          'discount = ? ' +
-          'WHERE id = ? ',
+        'name = ?, ' +
+        'discount = ? ' +
+        'WHERE id = ? ',
       [
         body.name,
         body.discount,

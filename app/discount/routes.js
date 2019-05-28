@@ -6,7 +6,7 @@ const validator = require('./validator')
 
 // discount
 router.get('/discountes', (req, res, next) => {
-  service.getAll(req.query.cityId ? req.query.cityId : req.query.companyId, req.query.cityId ? 'cityId' : 'companyId')
+  service.getAll(req.query.cityId ? req.query.cityId : req.query.companyId, req.query.cityId ? 'cityId' : 'companyId', req.query.search, next)
     .then((user) => {
       res.json(user)
     })
