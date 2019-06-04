@@ -12,20 +12,22 @@ const getAllUsers = next => {
         if (error) {
             reject(error)
         }
-        Promise.all(results.map(async element => {
-            if (element.image) {
-              return getImageById(element.image)
-            } else {
-              return element.image
-            }
-          }))
-          .then(data => {
-            resolve(results.map((element, index) => {
-              element.image = data[index]
-              return element
+        if (results.length) {
+          Promise.all(results.map(async element => {
+              if (element.image) {
+                return getImageById(element.image)
+              } else {
+                return element.image
+              }
             }))
-          })
-          .catch(next)
+            .then(data => {
+              resolve(results.map((element, index) => {
+                element.image = data[index]
+                return element
+              }))
+            })
+            .catch(next)
+        }
       })
   })
 }

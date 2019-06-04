@@ -12,12 +12,6 @@ const cors = require('cors')
 
 require('./datastore/db')
 
-// Search city + country
-// popular places
-
-// and one more, I don't understand structure of GET /tip response and how I need to do POST/PUT
-
-
 const app = express()
 
 console.log('♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠♠')
