@@ -10,9 +10,9 @@ const getAllUsers = next => {
       [], 
       (error, results, fields) => {
         if (error) {
-            reject(error)
+          reject(error)
         }
-        if (results.length) {
+        if (results && results.length) {
           Promise.all(results.map(async element => {
               if (element.image) {
                 return getImageById(element.image)
@@ -27,6 +27,8 @@ const getAllUsers = next => {
               }))
             })
             .catch(next)
+        } else {
+          resolve([])
         }
       })
   })
