@@ -2,20 +2,20 @@ const config = {
     web: {
       port: process.env.PORT || 27182
     },
-    // sqlDB:  {
-    //   host: 'us-cdbr-iron-east-02.cleardb.net',
-    //   // host: 'mysql://b157485e0db97e:5ad60993@us-cdbr-iron-east-02.cleardb.net/heroku_fcb1b4e6abecbe4?reconnect=true',
-    //   user: 'ba00ce890dedc6',
-    //   password: 'b6702ab6',
-    //   database: 'heroku_b8e13114a25c918'
-    // },
     sqlDB:  {
-      host: 'localhost',
+      host: 'us-cdbr-iron-east-02.cleardb.net',
       // host: 'mysql://b157485e0db97e:5ad60993@us-cdbr-iron-east-02.cleardb.net/heroku_fcb1b4e6abecbe4?reconnect=true',
-      user: 'salat',
-      password: 'dambldor',
-      database: 'tourism'
-    }
+      user: 'ba00ce890dedc6',
+      password: 'b6702ab6',
+      database: 'heroku_b8e13114a25c918'
+    },
+    // sqlDB:  {
+    //   host: 'localhost',
+    //   // host: 'mysql://b157485e0db97e:5ad60993@us-cdbr-iron-east-02.cleardb.net/heroku_fcb1b4e6abecbe4?reconnect=true',
+    //   user: 'salat',
+    //   password: 'dambldor',
+    //   database: 'tourism'
+    // }
   }
   
 // CREATE TABLE IF NOT EXISTS User (id int(11) NOT NULL AUTO_INCREMENT, role varchar(15) DEFAULT NULL, email varchar(100) DEFAULT NULL, password varchar(200) DEFAULT NULL, firstName varchar(100) DEFAULT NULL, surName varchar(100) DEFAULT NULL, image varchar(200) DEFAULT NULL, userHash varchar(100) NOT NULL UNIQUE, apiKey varhcar(100) DEFAULT NULL, PRIMARY KEY(id));
