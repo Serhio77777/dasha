@@ -22,7 +22,13 @@ let connection = mysql.createConnection(config.sqlDB)
 
 function handleDisconnect() {
   connection = mysql.createConnection(config.sqlDB);
-
+  const del = connection._protocol._delegateError;
+  connection._protocol._delegateError = function(err, sequence){
+    if (err.fatal) {
+        console.trace('fatal error: ' + err.message);
+    }
+    return del.call(this, err, sequence);
+  };
   connection.connect(function(err) {             
     if (err) {                                  
       console.log('error when connecting to db:', err);
