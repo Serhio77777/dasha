@@ -6,7 +6,7 @@ const validator = require('./validator')
 
 // mechanism
 router.get('/companies', (req, res, next) => {
-  service.getAll()
+  service.getAll(next)
     .then((user) => {
       res.json(user)
     })

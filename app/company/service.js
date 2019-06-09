@@ -4,7 +4,7 @@ const { encrypt, decrypt } = require('../middleware/hash')
 const dateFns = require('date-fns')
 const HttpError = require('../middleware/error')
 
-const getAll = () => {
+const getAll = (next) => {
   return new Promise((resolve, reject) => {
     connection.query(
       `SELECT * FROM Company`,
