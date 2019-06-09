@@ -13,13 +13,7 @@ const getAllUsers = next => {
           reject(error)
         }
         if (results && results.length) {
-          Promise.all(results.map(async element => {
-              if (element.image) {
-                return getImageById(element.image)
-              } else {
-                return element.image
-              }
-            }))
+          Promise.all(results.map(async element => element.image ? getImageById(element.image) : element.image))
             .then(data => {
               resolve(results.map((element, index) => {
                 element.image = data[index]
