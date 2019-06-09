@@ -1,7 +1,7 @@
 const mysql = require('mysql')
 const config = require('../config/config')
 
-const connection = mysql.createConnection(config.sqlDB)
+let connection = mysql.createConnection(config.sqlDB)
 // remove that
 // function handleDisconnect(conn) {
 //     connection.on('error', function(err) {
