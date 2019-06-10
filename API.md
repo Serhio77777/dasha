@@ -1499,6 +1499,8 @@
 
     `userId=[number]`
 
+    `cityId=[number]`
+
     `places=[[number]]`
 
     `name=[string]`
@@ -1510,6 +1512,7 @@
     ```json
     {
         "userId": 1,
+        "cityId": 1,
         "places": [1],
         "name": "lorem",
         "description": "Lorem ipsum dolor sit amet."
@@ -1571,6 +1574,8 @@
 
     `userId=[number]`
 
+    `cityId=[number]`
+
     `places=[[number]]`
 
     `name=[string]`
@@ -1582,6 +1587,7 @@
     ```json
     {
         "userId": 1,
+        "cityId": 1,
         "places": [1],
         "name": "lorem1",
         "description": "Lorem ipsum dolor sit amet."
@@ -1613,6 +1619,7 @@
                 ]
             }
         ],
+        "cityId": 1,
         "userId": 1
     }
     ```
@@ -1655,6 +1662,7 @@
                 ]
             }
         ],
+        "cityId": 1,
         "userId": 1
     }
     ```
@@ -1711,6 +1719,7 @@
                     ]
                 }
             ],
+            "cityId": 1,
             "userId": 1
         }
     ]
