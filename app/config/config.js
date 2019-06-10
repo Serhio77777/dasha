@@ -2,20 +2,20 @@ const config = {
     web: {
       port: process.env.PORT || 27182
     },
-    sqlDB:  {
-      host: 'us-cdbr-iron-east-02.cleardb.net',
-      // host: 'mysql://b157485e0db97e:5ad60993@us-cdbr-iron-east-02.cleardb.net/heroku_fcb1b4e6abecbe4?reconnect=true',
-      user: 'ba00ce890dedc6',
-      password: 'b6702ab6',
-      database: 'heroku_b8e13114a25c918'
-    },
     // sqlDB:  {
-    //   // host: '35.222.88.203',
-    //   sockePath: '/cloudsql/my-project-1474294752715:us-central1:mysqlconnection',
-    //   user: 'salat',
-    //   password: 'dambldor',
-    //   database: 'tourism'
+    //   host: 'us-cdbr-iron-east-02.cleardb.net',
+    //   // host: 'mysql://b157485e0db97e:5ad60993@us-cdbr-iron-east-02.cleardb.net/heroku_fcb1b4e6abecbe4?reconnect=true',
+    //   user: 'ba00ce890dedc6',
+    //   password: 'b6702ab6',
+    //   database: 'heroku_b8e13114a25c918'
     // },
+    sqlDB:  {
+      // host: '35.222.88.203',
+      sockePath: '/cloudsql/my-project-1474294752715:us-central1:mysqlconnection',
+      user: 'salat',
+      password: 'dambldor',
+      database: 'tourism'
+    },
     // my-project-1474294752715:us-central1:mysqlconnection
     // sqlDB:  {
     //   host: 'localhost',
