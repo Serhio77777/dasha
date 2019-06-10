@@ -37,7 +37,7 @@ router.put('/company/:id', (req, res, next) => {
     .catch(next)
 })
 router.put('/company/:id/image', (req, res, next) => {
-  service.addImage(req.body, req.params.id)
+  service.addImage(req.body, req.params.id, next)
     .then((user) => {
       res.json(user)
     })

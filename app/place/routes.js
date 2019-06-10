@@ -29,7 +29,7 @@ router.post('/place', (req, res, next) => {
     .catch(next)
 })
 router.put('/place/:id/image', (req, res, next) => {
-  service.addImage(req.params.id, req.body)
+  service.addImage(req.params.id, req.body, next)
     .then((user) => {
       res.json(user)
     })

@@ -66,7 +66,7 @@ const getImageById = id => {
   })
 }
 
-const getOne = id => {
+const getOne = (id, mode) => {
   return new Promise((resolve, reject) => {
     connection.query(
       `SELECT * FROM Place WHERE id = ?`,
@@ -78,7 +78,7 @@ const getOne = id => {
         if (results.length === 0) {
             return reject(new HttpError('Place not found.'))
         }
-        if (JSON.parse(results[0].images).length) {
+        if (JSON.parse(results[0].images).length && !mode) {
           results[0].images = await Promise.all(JSON.parse(results[0].images).map(async element => {
             if (element) {
               return getImageById(element)
@@ -86,6 +86,8 @@ const getOne = id => {
               return element
             }
           }))
+        } else if (mode) {
+          results[0].images = results[0].images
         } else {
           results[0].images = []
         }
@@ -116,7 +118,7 @@ const getImage = body => {
   })
 }
 
-const addImage = async (id, body) => {
+const addImage = async (id, body, next) => {
   if (typeof (await connection.query(
     `SELECT * FROM Image WHERE image = ?`,
     [body.image],
@@ -141,7 +143,7 @@ const addImage = async (id, body) => {
     })
   }
   let imageId = await getImage(body)
-  let place = await getOne(id)
+  let place = await getOne(id, 'test')
   let images = JSON.parse(place.images)
   images.push(imageId)
   return new Promise((resolve, reject) => {

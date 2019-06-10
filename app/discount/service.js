@@ -13,13 +13,7 @@ const getAll = (id, propName, searchText, next) => {
         if (error) {
             reject(error)
         }
-        Promise.all(results.map(async element => {
-          if (element.image) {
-            return getImageById(element.image)
-          } else {
-            return element.image
-          }
-        }))
+        Promise.all(results.map(async element => element.image ? getImageById(element.image) : element.image))
           .then(data => {
             results = results.map((element, index) => {
               element.image = data[index]
@@ -110,7 +104,7 @@ const getImage = body => {
         if (error) {
           reject(error)
         }
-        resolve(results[0].image)
+        resolve(results[0].id)
     })
   })
 }

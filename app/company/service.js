@@ -13,13 +13,7 @@ const getAll = (next) => {
         if (error) {
             reject(error)
         }
-        Promise.all(results.map(async element => {
-          if (element.image) {
-            return getImageById(element.image)
-          } else {
-            return element.image
-          }
-        }))
+        Promise.all(results.map(async element => element.image && !element.image.match('http') ? getImageById(element.image) : element.image))
           .then(data => {
             resolve(results.map((element, index) => {
               element.image = data[index]
@@ -68,7 +62,7 @@ const getOne = id => {
 
 const create = (body) => {
   body.image = ""
-  body.discount = JSON.stringify(body.discount)
+  body.discount = body.discount ? JSON.stringify(body.discount) : JSON.stringify([])
   return new Promise((resolve, reject) => {
     connection.query(
       `INSERT INTO Company SET ?`,
@@ -106,12 +100,12 @@ const getImage = body => {
       if (error) {
         reject(error)
       }
-      resolve(results[0].image)
+      resolve(results[0].id)
     })
   })
 }
 
-const addImage = async (body, id) => {
+const addImage = async (body, id, next) => {
   if (typeof (await connection.query(
     `SELECT * FROM Image WHERE image = ?`,
     [body.image],
