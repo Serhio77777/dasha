@@ -10,8 +10,8 @@ const config = {
       database: 'heroku_b8e13114a25c918'
     },
     // sqlDB:  {
-    //   host: '35.222.88.203',
-    //   // host: 'mysql://b157485e0db97e:5ad60993@us-cdbr-iron-east-02.cleardb.net/heroku_fcb1b4e6abecbe4?reconnect=true',
+    //   // host: '35.222.88.203',
+    //   sockePath: '/cloudsql/my-project-1474294752715:us-central1:mysqlconnection',
     //   user: 'salat',
     //   password: 'dambldor',
     //   database: 'tourism'
