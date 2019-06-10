@@ -7,7 +7,7 @@ const HttpError = require('../middleware/error')
 const getAll = (id, searchText, next) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      id > -1 ? `SELECT * FROM Trip WHERE userId = ?` : `SELECT * FROM Trip`,
+      id > -1 ? `SELECT * FROM Trip WHERE cityId = ?` : `SELECT * FROM Trip`,
       id > -1 ? [id] : [],
       (error, results, fields) => {
         if (error) {
@@ -121,7 +121,8 @@ const getOne = id => {
 }
 
 const create = (body) => {
-  body.places = JSON.stringify(body.places)
+  body.places = body.places && body.places.length ? JSON.stringify(body.places) : JSON.stringify([])
+  body.userId = null
   return new Promise((resolve, reject) => {
     connection.query(
       `INSERT INTO Trip SET ?`,
@@ -177,11 +178,13 @@ const update = (body, id) => {
     connection.query(
       `UPDATE Trip SET ` +
         'name = ?, ' +
-        'description = ? ' +
+        'description = ?, ' +
+        'userId = ? ' +
         'WHERE id = ? ',
       [
         body.name,
         body.description,
+        body.userId ? body.userId : null,
         id
       ],
       async (error, results, fields) => {
