@@ -1,7 +1,7 @@
 const config = {
     web: {
       port: process.env.PORT || 27182
-    // },
+    },
     // sqlDB:  {
     //   host: 'us-cdbr-iron-east-02.cleardb.net',
     //   // host: 'mysql://b157485e0db97e:5ad60993@us-cdbr-iron-east-02.cleardb.net/heroku_fcb1b4e6abecbe4?reconnect=true',
@@ -17,10 +17,9 @@ const config = {
     //   database: 'tourism'
     // },
     sqlDB:  {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_DATABASE
+      user: process.env.SQL_USER,
+      password: process.env.SQL_PASSWORD,
+      database: process.env.SQL_DATABASE
     },
     // my-project-1474294752715:us-central1:mysqlconnection
     // sqlDB:  {
