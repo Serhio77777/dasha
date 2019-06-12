@@ -8,7 +8,7 @@ const getAll = (id, searchText, next) => {
   return new Promise((resolve, reject) => {
     connection.query(
       id > -1 ? `SELECT * FROM Trip WHERE cityId = ?` : `SELECT * FROM Trip`,
-      id > -1 ? [id] : [],
+      [id],
       (error, results, fields) => {
         if (error) {
           throw error
@@ -122,7 +122,6 @@ const getOne = id => {
 
 const create = (body) => {
   body.places = body.places && body.places.length ? JSON.stringify(body.places) : JSON.stringify([])
-  body.userId = null
   return new Promise((resolve, reject) => {
     connection.query(
       `INSERT INTO Trip SET ?`,

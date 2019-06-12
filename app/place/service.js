@@ -7,7 +7,7 @@ const HttpError = require('../middleware/error')
 const getAll = (id, searchText, next) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      `SELECT * FROM Place WHERE cityId = ?`,
+      id ? `SELECT * FROM Place WHERE cityId = ?` :`SELECT * FROM Place`,
       [id],
       (error, results, fields) => {
         if (error) {

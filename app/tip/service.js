@@ -2,11 +2,12 @@ const mysql = require('mysql')
 const connection = require('../datastore/db')
 const { encrypt, decrypt } = require('../middleware/hash')
 const dateFns = require('date-fns')
+const HttpError = require('../middleware/error')
 
 const getAll = id => {
   return new Promise((resolve, reject) => {
     connection.query(
-      `SELECT * FROM Tip WHERE cityId = ?`,
+      id ? `SELECT * FROM Tip WHERE cityId = ?` : `SELECT * FROM Tip`,
       [id],
       (error, results, fields) => {
         if (error) {

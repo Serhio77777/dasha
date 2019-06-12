@@ -56,11 +56,11 @@ const deleteUser = id => {
   })
 }
 
-const getUserProfile = body => {
+const getUserProfile = (body, id) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      `SELECT * FROM User WHERE userHash = ?`, 
-      [encrypt(`${body.email}${body.password}`)], 
+      id ? `SELECT * FROM User WHERE id = ?` : `SELECT * FROM User WHERE userHash = ?`, 
+      [id ? id : encrypt(`${body.email}${body.password}`)], 
       async (error, results, fields) => {
         if (error) {
             return reject(error)
@@ -69,7 +69,7 @@ const getUserProfile = body => {
             return reject(new HttpError('Invalid email or password.'))
         }
         if (results[0].image) {
-          results[0].image = await getOneImage(results[0].image)
+          results[0].image = await getImageById(results[0].image)
         }
         resolve(results[0])
     })

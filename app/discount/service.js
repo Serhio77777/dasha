@@ -7,7 +7,7 @@ const HttpError = require('../middleware/error')
 const getAll = (id, propName, searchText, next) => {
   return new Promise((resolve, reject) => {
     connection.query(
-      `SELECT * FROM Discount WHERE ${propName} = ?`,
+      id ? `SELECT * FROM Discount WHERE ${propName} = ?` : 'SELECT * FROM Discount',
       [id],
       (error, results, fields) => {
         if (error) {
@@ -58,7 +58,7 @@ const getOne = id => {
             return reject(new HttpError('Discount not found.'))
         }
         if (results[0].image) {
-          results[0].image = await getOneImage(results[0].image)
+          results[0].image = await getImageById(results[0].image)
         }
         resolve(results[0])
       })
